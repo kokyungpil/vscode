@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="kor">
+  <head>
+    <meta charest="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width , initial-scale=1.0">
+    <title>실습</title>
+  </head>
+
+  <body>
+    <br>
+      <input type="text" value="이름" />
+      <br><br>
+      <input type="TEXT" value="아이디" />
+      <br><br>
+      <input type="TEXT" value="비밀번호" />  &nbsp; <u><font size="1">비밀번호 도움말</font></u>
+      <br><br>
+      <input type="TEXT" value="비밀번호 재입력" />
+      <br><br>
+      <select>
+        <option value=" ">전화번호</option>
+        <option value="031">031</option>
+        <option value="02">021</option>
+    </select>
+    <input type="text" size="6" onkeypress="onlyNumber();" />
+    <input type="text" size="6" onkeypress="onlyNumber();" />
+    
+<br><br>
+<select>
+    <option value="">휴대폰 번호</option>
+    <option value="031">010</option>
+</select>
+<input type="text"  size="5" onkeypress="onlyNumber();" />
+    <input type="text"  size="5" onkeypress="onlyNumber();" />
+    &nbsp;&nbsp;
+    <input type="button" value="휴대폰인증" onclick="CheckForm();" />
+<br><br>
+<label><input type="checkbox" name="color" value="blue"> <font size="2">인증받은 휴대폰 번호를 대표번호로 사용</font></label>
+<label><input type="checkbox" name="color" value="blue"> <font size="2">다른번호 등록</font> </label>
+<label><input type="checkbox" name="color" value="blue"> <font size="2">다음에 등록함</font> </label>
+<br>
+<br>
+      <input type="text" name="postcode" value="우편번호" />&nbsp;&nbsp;&nbsp;
+      <button type="button" >주소 찾기</button>
+<br><br>
+<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ <button  style="background-color :red" type="button"> <font size="5" color ="white"> 가입신청 </font> </button> 
+&nbsp;&nbsp;
+<button type="button" ><font size="5" > 취소 </font></button> 
+
+
+    </form>
+  </body>
+</html>
