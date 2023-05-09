@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="kor">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+
+.manybox{ 
+
+      #box1 {
+        width: 400px;
+        height: 400px;
+        background-color: rgb(82, 82, 85);
+      }
+      #box2 {
+        width: 400px;
+        height: 400px;
+        background-color: rgb(82, 82, 85);
+      }
+      #box3 {
+        width: 400px;
+        height: 400px;
+        background-color: rgb(82, 82, 85);
+      }
+
+
+
+
+    }
+    </style>
+
+    <script>
+      function changebluecolor() {
+        let box = document.getElementById("box");
+        box.style.backgroundColor = "#ff0000";
+      }
+
+      function changeyellowcolor() {
+        let box = document.getElementById("box");
+        box.style.backgroundColor = "#ffff00";
+      }
+      function changebrowncolor() {
+        let box = document.getElementById("box");
+        box.style.backgroundColor = "#f00000";
+      }
+    </script>
+  </head>
+
+  <body>
+    <div
+      id="box"
+
+      onmouseover="changebluecolor()"
+      onmouseleave="changeyellowcolor()"
+      onmousewheel="changebrowncolor"
+    ></div>
+  </body>
+</html>

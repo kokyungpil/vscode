@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="kor">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script src="try3.js"></script>
+
+    <style>
+      .button-container {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 10px;
+      }
+
+      .div_class1 {
+        background-color: rgb(255, 0, 0);
+        font-size: xx-large;
+        margin-right: 10px;
+      }
+      .div_class2 {
+        background-color: rgb(47, 0, 255);
+        font-size: xx-large;
+        margin-right: 10px;
+      }
+      .div_class3 {
+        background-color: rgb(0, 255, 13);
+        font-size: xx-large;
+      }
+
+      .text-input {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <script>
+    function ask() {
+      var number = prompt("아무거나 입력해주세요");
+
+      if (number === null || number === "") {
+        alert("텍스트 값을 입력해주세요!!!!");
+        ask();
+      } else {
+        document.getElementById("inner").innerHTML =htmlString;
+    }
+    }
+    
+  </script>
+
+  <script> 
+
+var htmlString = `<p>
+  <br />
+  <div>
+    <font style="font-size: xx-large" id="textchange">
+      텍스트를 잘 썼군요
+    </font>
+  </div>
+  <br />
+
+  <div class="button-container">
+    <button
+      class="div_class1"
+      onclick="javascript: changeredcolor()"
+    >
+      빨강
+    </button>
+    <button
+      class="div_class2"
+      onclick="javascript: changebluecolor()"
+    >
+      파랑
+    </button>
+    <button
+      class="div_class3"
+      onclick="javascript: changegreencolor()"
+    >
+      초록
+    </button>
+  </div>
+</p>`;
+
+
+
+</script>
+
+  <body>
+      <div onclick="ask()"><button>실습 3번째 버튼</button></div>
+      <div id="inner"></div>
+    
+  </body>
+</html>

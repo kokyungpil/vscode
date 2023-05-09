@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="kor">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="js02.js"></script>
+    <style>
+      .big-text {
+        font-size: 24px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="div1">Original Text</div>
+
+    <div class="div1_class" id="div1_name">1</div>
+    <div class="div1_class" id="div2_name">2</div>
+    <div class="div1_class">3</div>
+
+    <input type="text" name="name">
+
+    <div onclick="changecolor('div1_name')"><button>색깔</button></div>
+    <div onclick="changetext()"><button>크기</button></div>
+
+    <script>
+      function changecolor(id) {
+        let div = document.getElementById(id);
+        div.style.color = '#ff0000';
+      }
+
+      function changetext() {
+        let div = document.getElementById('div1');
+        div.classList.toggle('big-text');
+      }
+    </script>
+  </body>
+</html>
