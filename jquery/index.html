@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="kor">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.js"
+      integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      $("#box")
+        .click(function () {
+          console.log("click!!");
+
+          $(this).append("<h1>꾸겨넣기</h1>");
+        })
+        
+        .mouseover(function () {
+          console.log("mouse over");
+          $(this).css("background", "#ff0000");
+        })
+        .mouseleave(function () {
+          console.log("mouse leave");
+          $(this).css("background-color", "#00ff00");
+        });
+    </script>
+
+    <style>
+      #box {
+        background-color: red;
+        width: 100px;
+        height: 100px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>hello</h1>
+
+    <div id="box"></div>
+  </body>
+</html>

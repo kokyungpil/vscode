@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .bt {
+            color: white;
+            background-color: gray;
+            width: 200px;
+            padding: 30px;
+            font-size: 30px;
+        }
+        .bt.active {
+            color: black;
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="button" class="bt" id="bt1" value="html">
+    <input type="button" class="bt" id="bt2" value="css">
+    <input type="button" class="bt" id="bt3" value="javascript">
+
+    <script>
+        var buttons = document.querySelectorAll('.bt');
+
+        function mousebt(event) {
+            var clickedButton = event.target;
+
+            // Reset all buttons to default style
+            buttons.forEach(function(button) {
+                button.classList.remove('active');
+            });
+
+            // Set clicked button as active
+            clickedButton.classList.add('active');
+        }
+
+        buttons.forEach(function(button) {
+            button.addEventListener('mouseover', mousebt);
+        });
+    </script>
+</body>
+</html>

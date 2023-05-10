@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .inContainer {
+        display: grid;
+        grid-template-columns: 200px 400px 300px;
+      }
+
+      .inContainer div {
+        border: 1px solid black;
+        text-align: center;
+        padding-top: 30px;
+      }
+
+      input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+      }
+    </style>
+
+    <script>
+     function execution() {
+  event.preventDefault();
+
+  const checkboxes = document.querySelectorAll(".checkBox");
+
+  // 체크된 체크박스가 없는 경우
+  if (checkboxes.length === 0) {
+    alert("체크박스를 선택해주세요.");
+    return;
+  }
+
+  for (let i = 1; i < 7; ++i) {
+    document.getElementById("r" + i).style.display = "none";
+  }
+
+  checkboxes.forEach((checkbox) => {
+    if (checkbox.checked) {
+      const value = checkbox.value;
+      document.getElementById(value).style.display = "grid";
+      const title = document.getElementById("title" + value.substr(1)).textContent;
+      console.log(title);
+    }
+  });
+}
+    </script>
+  </head>
+
+  <br /><br />
+  <body>
+    <form id="form">
+      <div id="container">
+        <div class="inContainer" id="banner">
+          <div>
+            <input type="checkbox" name="log" value="all" id="all" />
+          </div>
+          <div>제목</div>
+          <div>글쓴시간</div>
+        </div>
+
+        <div class="inContainer" id="r1">
+          <div>
+            <input type="checkbox" name="log" value="r1" class="checkBox" />
+          </div>
+          <div id="title1">1번</div>
+          <div>11:11:00</div>
+        </div>
+
+        <div class="inContainer" id="r2">
+          <div>
+            <input type="checkbox" name="log" value="r2" class="checkBox" />
+          </div>
+          <div id="title2">2번</div>
+          <div>11:11:00</div>
+        </div>
+
+        <div class="inContainer" id="r3">
+          <div>
+            <input type="checkbox" name="log" value="r3" class="checkBox" />
+          </div>
+          <div id="title3">3번</div>
+          <div>11:11:00</div>
+        </div>
+
+        <div class="inContainer" id="r4">
+          <div>
+            <input type="checkbox" name="log" value="r4" class="checkBox" />
+          </div>
+          <div id="title4">4번</div>
+          <div>11:11:00</div>
+        </div>
+
+        <div class="inContainer" id="r5">
+          <div>
+            <input type="checkbox" name="log" value="r5" class="checkBox" />
+          </div>
+          <div id="title5">5번</div>
+          <div>11:11:00</div>
+        </div>
+
+        <div class="inContainer" id="r6">
+          <div>
+            <input type="checkbox" name="log" value="r6" class="checkBox" />
+          </div>
+          <div id="title6">6번</div>
+          <div>11 :11:00</div>
+        </div>
+      </div>
+      <br />
+      &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+      &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+      &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+      &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+      &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+      &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+      &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+      <input
+        type="submit"
+        value="로그"
+        onclick="execution();"
+        style="width: 100px; height: 35px; margin-top: 10px"
+      />
+    </form>
+
+    <script>
+      const checkAll = document.getElementById("all");
+      const checkboxes = document.querySelectorAll(".checkBox");
+
+      checkAll.addEventListener("change", (event) => {
+        checkboxes.forEach((checkbox) => {
+          checkbox.checked = event.target.checked;
+        });
+      });
+    </script>
+  </body>
+</html>

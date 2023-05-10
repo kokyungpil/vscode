@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="kor">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+    #box {
+      padding: 10px;
+      background-color: #c1c1f3;
+    }
+    li {
+      padding: 15px;
+      margin: 10px;
+      background-color: white;
+      list-style: none;
+    }
+
+
+
+    </style>
+
+    <script>
+      $(document).ready(function () {
+        $("#add_button").click(function () {
+          var inputText = $("#input_text").val();
+          $("#box").append("<li>" + inputText + "</li>");
+        });
+      });
+    </script>
+
+  </head>
+  <body>
+    
+    <br>
+    <input id="input_text" type="text" />
+    <input id="add_button" type="button" value="등록하기" />
+    <br />
+    <br />
+
+    <ul id="box">
+    <li>박지성 박지성 박지성 박지성</li>
+    <li>안정환 안정환 안정환 안정환</li>
+    <li>이영표 이영표 이영표 이영표</li>
+  </ul>
+  </body>
+</html>

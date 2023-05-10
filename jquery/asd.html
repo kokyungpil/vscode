@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      p {
+        font-weight: bolder;
+        margin-bottom: 0px;
+      }
+
+      #idpw input {
+        height: 20px;
+      }
+    </style>
+    <script>
+      function execution() {
+        const form = document.querySelector("#signUp");
+
+        let id = form.querySelector('input[name="id"]').value;
+        if (id.indexOf("@") === -1) {
+          alert("아이디 형식이 올바르지 않습니다.");
+          return;
+        }
+
+        let pw = form.querySelector('input[name="pw"]').value;
+        if (pw.length < 5) {
+          alert("비밀번호는 5자 이상 입력해주세요.");
+          return;
+        }
+
+        let gender = form.querySelector('input[name="gender"]:checked');
+        if (!gender) {
+          alert("성별을 선택해주세요.");
+          return;
+        }
+
+        let work = form.querySelector("#work").value;
+        if (work === "") {
+          alert("직업을 선택해주세요.");
+          return;
+        }
+
+        let hobbyList = form.querySelectorAll('input[name="hobby"]:checked');
+        if (hobbyList.length < 3) {
+          alert("취미를 3개 이상 선택해주세요.");
+          return;
+        }
+
+        alert("회원가입에 성공했습니다.");
+      }
+    </script>
+  </head>
+
+  <body>
+    <br>
+    <form id="signUp">
+      <div id="idpw">
+        <b>아이디</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="text" name="id" id="id" />
+
+        <br /><br />
+
+        <b>비밀번호</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="text" name="pw" id="pw" />
+      </div>
+
+      <br />
+
+      <b>성별</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<div id="genderBox" style="display: inline;">
+    <input type="radio" name="gender" value="male" />남자&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="radio" name="gender" value="female" />여자
+</div>
+<br /><br />
+
+      <b>직업</b
+      >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <select id="work" name="work" style="width: 180px; height: 25px">
+        <option value=""></option>
+        <option value="dev">선생님</option>
+        <option value="pol">개발자</option>
+        <option value="fire">백수</option>
+      </select>
+      <br /><br />
+
+      <b>취미</b
+      >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="checkbox" name="hobby" value="develop" /> 개발
+      <input type="checkbox" name="hobby" value="game" /> 게임
+      <input type="checkbox" name="hobby" value="fishing" /> 낚시
+      <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="checkbox" name="hobby" value="training" /> 운동
+      <input type="checkbox" name="hobby" value="reading" /> 독서
+      <input type="checkbox" name="hobby" value="music" /> 음악감상
+
+      <br /><br />
+      <div style="margin-top: 10px">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="reset" value="취소" style="width: 100px; height: 30px" />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input
+          type="submit"
+          value="회원가입"
+          onclick="javascript:execution()"
+          style="width: 100px; height: 30px"
+        />
+      </div>
+    </form>
+  </body>
+</html>
