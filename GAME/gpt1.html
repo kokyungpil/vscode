@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="kor">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>총알 피하기 게임</title>
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.js"
+      integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      #container {
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        border: 1px black solid;
+      }
+
+      #naruto {
+        position: absolute;
+        left: 230px;
+        top: 230px;
+        width: 50px;
+        height: 50px;
+        border: 3px solid;
+        border-radius: 100px;
+        color: aqua;
+      }
+
+      .bullet {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border-radius: 100px;
+        background-color: red;
+      }
+
+      #score {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      #gameOver {
+        display: none;
+        text-align: center;
+      }
+
+      #restartButton {
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+    </style>
+    <script>
+      $(function () {
+        var score = 0;
+        var gameRunning = false;
+        var naruto = $("#naruto");
+        var container = $("#container");
+        var containerWidth = container.width();
+        var containerHeight = container.height();
+        var narutoWidth = naruto.width();
+        var narutoHeight = naruto.height();
+        var bullets = [];
+
+        function createBullet() {
+          var bullet = $("<div class='bullet'></div>");
+          container.append(bullet);
+
+          var bulletLeft = Math.random() * (containerWidth - 20);
+          bullet.css("left", bulletLeft);
+
+          var bulletTop = -20;
+          bullet.css("top", bulletTop);
+
+          bullets.push(bullet);
+        }
+
+        function moveBullets() {
+          bullets.forEach(function (bullet) {
+            var bulletTop = bullet.position().top;
+            bullet.css("top", bulletTop + 5);
+
+            if (collisionDetection(naruto, bullet)) {
+              endGame();
+            }
+
+            if (bulletTop > containerHeight) {
+              bullet.remove();
+              bullets.splice(bullets.indexOf(bullet), 1);
+              score += 10;
+              $("#score").text("Score: " + score);
+            }
+          });
+        }
+
+        function collisionDetection(object1, object2) {
+          var x1 = object1.offset().left;
+          var y1 = object1.offset().top;
+          var h1 = object1.outerHeight(true);
+          var w1 = object1.outerWidth(true);
+          var b1 = y1 + h1;
+          var r1 = x1 + w1;
+          var x2 = object2.offset().left;
+          var y2 = object2.offset().top;
+          var h2 = object2.outerHeight(true);
+          var w2 = object2.outerWidth(true);
+          var b2 = y2 + h2;
+          var r2 = x2 + w2;
+
+          if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2) {
+            return false;
+          }
+          return true;
+        }
+
+        function endGame() {
+          gameRunning = false;
+          $("#gameOver").show();
+          $("#finalScore").text(score);
+        }
+
+        function restartGame() {
+          score = 0;
+          gameRunning = true;
+          bullets = [];
+          $("#score").text("Score: " + score);
+          naruto.css({ left: "230px", top: "230px" });
+          $("#gameOver").hide();
+          startGame();
+        }
+
+        $(function () {
+        // startButton 클릭 시 startGame 함수 호출
+        $("#startButton").click(startGame);
+
+        // 게임 시작 상태 변수 초기화
+        var gameRunning = false;
+
+        // 게임 시작 함수
+        function startGame() {
+          if (!gameRunning) {
+            gameRunning = true;
+            score = 0;
+            $("#score").text("Score: " + score);
+            naruto.css({ left: "230px", top: "230px" });
+            bullets.forEach(function (bullet) {
+              bullet.remove();
+            });
+            bullets = [];
+            setInterval(function () {
+              createBullet();
+              moveBullets();
+            }, 1000);
+          }
+        }
+
+        $("#startButton").click(startGame);
+
+        $("#restartButton").click(restartGame);
+
+        $("html").keydown(function (e) {
+          if (gameRunning) {
+            switch (e.which) {
+              case 37: // Left arrow key
+                naruto.css("left", "-=5");
+                break;
+              case 38: // Up arrow key
+                naruto.css("top", "-=5");
+                break;
+              case 39: // Right arrow key
+                naruto.css("left", "+=5");
+                break;
+              case 40: // Down arrow key
+                naruto.css("top", "+=5");
+                break;
+            }
+          }
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="container">
+      <img id="naruto" src="img/나루토.png" alt="Naruto" />
+    </div>
+    <div id="score">Score: 0</div>
+    <div id="gameOver">
+      <p>Game Over! Your score is: <span id="finalScore"></span></p>
+      <button id="restartButton">Play Again</button>
+    </div>
+    <button id="startButton">Start Game</button>
+  </body>
+</html>
