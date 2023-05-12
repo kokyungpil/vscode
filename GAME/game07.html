@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>피카츄의 역습</title>
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.js"
+      integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      #container {
+        position: relative;
+        width: 1200px;
+        height: 600px;
+        border: 5px black solid;
+        margin: 0 auto;
+        overflow: hidden;
+      }
+      .sliding-background {
+        z-index: -100;
+        position: absolute;
+        background: url("img/aqq.jpg");
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-repeat: repeat-x;
+        background-position: left bottom; /* 시작 위치를 오른쪽으로 설정 */
+        animation: slideBackground 70s linear infinite;
+      }
+
+      @keyframes slideBackground {
+        0% {
+          background-position: left bottom;
+        }
+        100% {
+          background-position: right bottom; /* 목표 위치를 왼쪽으로 설정 */
+        }
+      }
+
+      #hero {
+        position: absolute;
+        bottom: 0;
+        left: 50px;
+        width: 180px;
+        height: 200px;
+        z-index: 1;
+      }
+
+      #enemy {
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        bottom: 0;
+        right: 0;
+        z-index: 1;
+      }
+
+      #name {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 48px;
+        color: rgb(0, 0, 0);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      #score {
+        position: absolute;
+        top: 20px;
+        right: 50px;
+        font-size: 36px;
+        color: rgb(0, 0, 0);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      #gameover_screen {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        width: 100%;
+      }
+
+      #gameover_screen h2 {
+        font-size: 48px;
+        color: rgb(0, 0, 0);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        margin-bottom: 20px;
+      }
+
+      #restart_button {
+        font-size: 24px;
+        padding: 10px 20px;
+        background-color: rgb(177, 204, 235);
+        color: rgb(0, 0, 0);
+        border: none;
+        cursor: pointer;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+      .bullet {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        background: url("img/aaa.gif");
+        background-size: cover;
+        bottom: 50px;
+        left: 190px;
+        display: none;
+        z-index: 1; /* 총알이 피카츄 위로 겹치도록 z-index 추가 */
+      }
+      #gameover_score {
+        color: rgb(0, 0, 0);
+        font-size: 36px;
+        margin-top: 50px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      #controls {
+        position: absolute;
+        color: rgb(0, 0, 0);
+        top: 10px;
+        left: 10px;
+        font-size: 24px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      #aa {
+        color: rgb(0, 0, 0);
+        font-size: 24px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      body {
+        margin: 0;
+        padding: 0;s
+        font-family: Arial, sans-serif;
+        background-color: #f1f1f1;
+      }
+    </style>
+    <script>
+      const ENEMY_SPEED_MIN_EASY = 1000;
+      const ENEMY_SPEED_MAX_EASY = 3000;
+
+      const ENEMY_SPEED_MIN_HARD = 500;
+      const ENEMY_SPEED_MAX_HARD = 1000;
+
+      const ENEMY_RESPAWN_DELAY = 1000; // 피카츄 재생성 지연 시간 (밀리초)
+
+      $(function () {
+        const hero = $("#hero");
+        const enemy = $("#enemy");
+        const bullet = $(".bullet");
+        const gameoverScreen = $("#gameover_screen");
+        const restartButton = $("#restart_button");
+        let isJumping = false;
+        let score = 0;
+        let gameover = false;
+        let isEnemyVisible = true;
+        gameStart();
+
+        function gameStart() {
+          setKeyboardEvent();
+          setTouchEvents();
+          enemyStart();
+          checkGameOver();
+          checkCollision();
+          checkGameOver();
+        }
+
+        function checkCollision() {
+          const enemyRect = enemy[0].getBoundingClientRect();
+          const bulletRect = bullet[0].getBoundingClientRect();
+
+          if (
+            bulletRect.left <= enemyRect.right &&
+            bulletRect.right >= enemyRect.left &&
+            bulletRect.top <= enemyRect.bottom &&
+            bulletRect.bottom >= enemyRect.top
+          ) {
+            enemy.hide();
+            bullet.hide();
+            score =+ 10000;
+            updateScore(score);
+
+            // 피카츄 사라진 후 재생성
+            setTimeout(function () {
+              enemy.show();
+              isEnemyVisible = false; // 피카츄를 사라지게 설정
+            }, ENEMY_RESPAWN_DELAY);
+          }
+        }
+        $(document).ready(function () {
+          setInterval(checkCollision, 1000 / 60);
+        });
+
+        function checkGameOver() {
+          setInterval(function () {
+            if (
+              !gameover &&
+              isColliding(
+                hero[0].getBoundingClientRect(),
+                enemy[0].getBoundingClientRect()
+              )
+            ) {
+              gameover = true;
+              hero.stop();
+              enemy.stop();
+              bullet.stop();
+              showGameOverScreen();
+            }
+          }, 1000 / 60);
+        }
+
+        function showGameOverScreen() {
+          gameoverScreen.show();
+          $("#gameover_score").text(score);
+          restartButton.on("click", gameRestart);
+        }
+
+        function gameRestart() {
+          gameoverScreen.hide();
+          restartButton.off("click");
+          score = 0;
+          updateScore(score);
+          hero.css("bottom", "0px");
+          enemy.css("right", "-150px"); // 피카츄 초기 위치 수정
+          bullet.css("display", "none");
+          gameover = false;
+          gameStart();
+        }
+
+        function isColliding(rect1, rect2) {
+          return !(
+            rect1.bottom < rect2.top + 70 ||
+            rect1.top > rect2.bottom - 70 ||
+            rect1.right < rect2.left + 70 ||
+            rect1.left > rect2.right - 70
+          );
+        }
+
+        function getRandomNumber(min, max) {
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function getRandomSpeed(difficulty) {
+          if (difficulty === "easy") {
+            return getRandomNumber(ENEMY_SPEED_MIN_EASY, ENEMY_SPEED_MAX_EASY);
+          } else if (difficulty === "hard") {
+            return getRandomNumber(ENEMY_SPEED_MIN_HARD, ENEMY_SPEED_MAX_HARD);
+          }
+        }
+
+        function enemyStart() {
+          const speed = getRandomSpeed("easy");
+
+          enemy.animate({ right: "1300px" }, speed, "linear", function () {
+            enemy.css("right", "-100px");
+            enemyStart();
+          });
+        }
+
+        function updateScore(score) {
+          $("#score").text(score);
+        }
+
+        function checkJumpScore() {
+          const heroRect = hero[0].getBoundingClientRect();
+          const enemyRect = enemy[0].getBoundingClientRect();
+
+          if (heroRect.top < enemyRect.bottom) {
+            score += 1000;
+            updateScore(score);
+          }
+        }
+
+        function jump() {
+          if (!isJumping) {
+            isJumping = true;
+            hero
+              .animate({ bottom: "+=300px" })
+              .animate({ bottom: "-=300px" }, function () {
+                isJumping = false;
+                checkJumpScore(); // 점프 후 점수 체크
+              });
+          }
+        }
+
+        function shoot() {
+          if (!gameover && !bullet.is(":visible")) {
+            bullet
+              .show()
+              .animate({ left: "1000px" }, 1000, "linear", function () {
+                bullet.css("left", "190px");
+                bullet.hide();
+              });
+            checkCollision(); // 공격 후 충돌 검사
+          }
+        }
+
+        function setKeyboardEvent() {
+          $(document).keydown(function (e) {
+            switch (e.key) {
+              case " ":
+                jump();
+                break;
+              case "a":
+              case "A":
+                shoot();
+                break;
+            }
+          });
+        }
+
+        function setTouchEvents() {
+          const touchArea = $("#container");
+
+          touchArea.on("touchstart", function (e) {
+            const touchX = e.touches[0].clientX;
+            const containerWidth = touchArea.width();
+            const halfContainerWidth = containerWidth / 2;
+
+            if (touchX < halfContainerWidth) {
+              jump();
+            } else {
+              shoot();
+            }
+          });
+        }
+
+        setKeyboardEvent();
+        setTouchEvents();
+      });
+    </script>
+  </head>
+  <body>
+    <div id="container">
+      <h1 id="name">피카츄의 역습</h1>
+      <div class="sliding-background"></div>
+      <img id="enemy" src="img/pikachu.gif" alt="Enemy" />
+      <img id="hero" src="img/girl.gif" alt="Hero" />
+      <div id="gameover_screen">
+        <h2>Game Over</h2>
+        <p id="gameover_score">SCORE:</p>
+        <input type="button" id="restart_button" value="Restart" />
+      </div>
+      <div id="score">0</div>
+      <div id="controls">A = 공격</div>
+      <div class="bullet"></div>
+    </div>
+  </body>
+</html>
