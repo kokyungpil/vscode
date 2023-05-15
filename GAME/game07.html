@@ -5,12 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>피카츄의 역습</title>
+
     <script
       src="https://code.jquery.com/jquery-3.6.4.js"
       integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
       crossorigin="anonymous"
     ></script>
     <style>
+      
       #container {
         position: relative;
         width: 1200px;
@@ -134,10 +136,18 @@
         font-size: 24px;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
       }
+      #start_button {
+        background-color: aqua;
+        font-size: 50px;
+        font-weight: 700;
+        position: fixed;
+        top: 250px;
+        right: 850px;
+      }
 
       body {
         margin: 0;
-        padding: 0;s
+        padding: 0;
         font-family: Arial, sans-serif;
         background-color: #f1f1f1;
       }
@@ -157,20 +167,36 @@
         const bullet = $(".bullet");
         const gameoverScreen = $("#gameover_screen");
         const restartButton = $("#restart_button");
+        let gameStarted = false; // 게임 시작 여부를 추적하기 위한 변수 추가
         let isJumping = false;
         let score = 0;
         let gameover = false;
-        let isEnemyVisible = true;
+        let isEnemyVisible = false; // 피카츄의 가시성을 추적하기 위한 변수 추가
         gameStart();
 
+        $("#start_button").on("click", function () {
+          if (!gameStarted) { // 게임이 시작되지 않은 경우에만 실행
+            gameStarted = true; // 게임 시작 상태로 변경
+            $(this).hide(); // 게임 시작 버튼 숨기기
+            gameStart(); // 게임 시작 함수 호출
+          }
+        });
+        // 게임 시작 함수
         function gameStart() {
+          // 게임 시작 시 수행할 동작들을 작성합니다.
+          // 기존의 gameStart 함수 내용을 이동하거나 추가로 개발할 수 있습니다.
+
           setKeyboardEvent();
           setTouchEvents();
           enemyStart();
           checkGameOver();
           checkCollision();
-          checkGameOver();
+          // 게임 시작 시 다른 화면을 숨깁니다.
+        $("#start_button").hide();
         }
+        
+        const ENEMY_START_POSITION = { right: "0px" }; // 피카츄의 시작 위치
+        let isEnemyHit = false; // 피카츄가 총에 맞았는지 여부
 
         function checkCollision() {
           const enemyRect = enemy[0].getBoundingClientRect();
@@ -184,20 +210,41 @@
           ) {
             enemy.hide();
             bullet.hide();
-            score =+ 10000;
-            updateScore(score);
+
+            if (!isEnemyHit) {
+              score += 10000;
+              updateScore(score);
+              isEnemyHit = true;
+            }
 
             // 피카츄 사라진 후 재생성
             setTimeout(function () {
+              enemy.css(ENEMY_START_POSITION);
               enemy.show();
               isEnemyVisible = false; // 피카츄를 사라지게 설정
+              isEnemyHit = false; // 피카츄가 다시 생성되었으므로 초기화
+              enemyStart();
             }, ENEMY_RESPAWN_DELAY);
           }
         }
-        $(document).ready(function () {
-          setInterval(checkCollision, 1000 / 60);
-        });
 
+        function enemyStart() {
+          const speed = getRandomSpeed("easy");
+
+          function showEnemy() {
+            enemy.show();
+
+            isEnemyVisible = true;
+          }
+
+          enemy.animate({ right: "1300px" }, speed, "linear", function () {
+            enemy.css("right", "-500px");
+          });
+        }
+
+        $(document).ready(function () {
+          setInterval(checkCollision, 2000 / 100);
+        });
         function checkGameOver() {
           setInterval(function () {
             if (
@@ -228,7 +275,7 @@
           score = 0;
           updateScore(score);
           hero.css("bottom", "0px");
-          enemy.css("right", "-150px"); // 피카츄 초기 위치 수정
+          enemy.css("right", "-150px");
           bullet.css("display", "none");
           gameover = false;
           gameStart();
@@ -258,8 +305,14 @@
         function enemyStart() {
           const speed = getRandomSpeed("easy");
 
+          function showEnemy() {
+            enemy.show();
+
+            isEnemyVisible = true;
+          }
+
           enemy.animate({ right: "1300px" }, speed, "linear", function () {
-            enemy.css("right", "-100px");
+            enemy.css("right", "-500px");
             enemyStart();
           });
         }
@@ -282,8 +335,8 @@
           if (!isJumping) {
             isJumping = true;
             hero
-              .animate({ bottom: "+=300px" })
-              .animate({ bottom: "-=300px" }, function () {
+              .animate({ bottom: "+=350px" })
+              .animate({ bottom: "-=350px" }, function () {
                 isJumping = false;
                 checkJumpScore(); // 점프 후 점수 체크
               });
@@ -338,8 +391,10 @@
     </script>
   </head>
   <body>
+    <div id="container2">
     <div id="container">
       <h1 id="name">피카츄의 역습</h1>
+      <button id="start_button">게임 시작</button>
       <div class="sliding-background"></div>
       <img id="enemy" src="img/pikachu.gif" alt="Enemy" />
       <img id="hero" src="img/girl.gif" alt="Hero" />
