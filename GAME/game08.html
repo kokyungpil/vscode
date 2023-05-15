@@ -88,7 +88,7 @@
         height: 800px;
         bottom: 0;
         right: -180px;
-        display: none;
+        display: noe;
         transform: scaleX(-1);
         z-index: 50;
       }
@@ -240,7 +240,7 @@ position: absolute;
     enemyStart();
     checkGameOver();
     checkCollision();
-    //checkCollision2()
+    checkCollision2();
     $("#start_button").hide();
   }
         
@@ -278,31 +278,34 @@ position: absolute;
   setInterval(checkCollision, 20); // 20ms마다 충돌 체크 수행
 });
 
-/*
+
+
 let bossHitCount = 0; // 보스가 맞은 횟수
 
-function checkCollision2() {
-  const bossRect = boss[0].getBoundingClientRect();
-  const bulletRect = bullet[0].getBoundingClientRect();
 
-  if (
-    bulletRect.left <= bossRect.right &&
-    bulletRect.right >= bossRect.left &&
-    bulletRect.top <= bossRect.bottom &&
-    bulletRect.bottom >= bossRect.top
-  ) {
-    bossHitCount++;
-    if (bossHitCount === 5) {
-      boss.remove();
+
+
+  function checkCollision2() {
+    const bossRect = boss[0].getBoundingClientRect();
+    const bulletRect = bullet[0].getBoundingClientRect();
+
+    const aaa = bulletRect.left <= bossRect.right &&
+      bulletRect.right <= bossRect.left &&
+      bulletRect.top <= bossRect.bottom &&
+      bulletRect.bottom <= bossRect.top;
+
+    if (aaa) {
+      // bossHitCount++;
+      console.log(bossRect.left);
+      if (bossHitCount === 5) {
+        
+        boss.hide();
+      }
     }
   }
-}
-$(document).ready(function () {
-  bossHitCount = 0; // 보스가 나타날 때마다 초기화
-  setInterval(checkCollision2, 20); // 200ms마다 충돌 체크 수행
-});
 
-*/
+  setInterval(checkCollision2, 20); // 200ms마다 충돌 체크 수행
+
 
         function checkGameOver() {
           setInterval(function () {
@@ -388,6 +391,7 @@ $(document).ready(function () {
   enemy.css({ width: "250px", height: "150px" });
 }
 if (score >= 100000 && score <= 140000) {
+  bossHitCount = 0; // 보스가 맞은 횟수
       enemy.remove();
   evo2.show();
   setTimeout(() => {
