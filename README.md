@@ -3,6 +3,9 @@
 
 #아래는 저의 게임 주소입니다
 
+![image](https://github.com/kokyungpil/vscode/assets/126846896/ffde604c-4a11-4452-ac81-e33ec133d661)
+
+
 https://kokyungpil.github.io/vscode/GAME/game08.html
 
 #게임의 이름은 장미의 모험입니다
